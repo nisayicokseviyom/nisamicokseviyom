@@ -18,7 +18,7 @@ html, body{
     justify-content:center;
     align-items:center;
     flex-direction:column;
-    background: linear-gradient(45deg,#2c3e50,#8e44ad,#3498db); /* Yeni gradient */
+    background: linear-gradient(45deg,#2c3e50,#8e44ad,#3498db);
     background-size:400% 400%;
     animation:bg 8s infinite alternate;
 }
@@ -70,6 +70,17 @@ button{
     animation:pop 0.8s forwards;
 }
 
+#hiddenText{
+    position:absolute;
+    bottom:10px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:12px;
+    color:black;
+    opacity:0;
+    pointer-events:none;
+}
+
 @keyframes fall{
     0%{transform:translateY(-100px) rotate(0deg);}
     100%{transform:translateY(110vh) rotate(360deg);}
@@ -102,6 +113,7 @@ button{
 </audio>
 
 <div id="bigHeart">❤️</div>
+<div id="hiddenText">askım o siyah madonnayı giyme pls</div>
 
 <script>
 const hayir = document.getElementById("hayir")
@@ -109,6 +121,7 @@ const evet = document.getElementById("evet")
 const yazi = document.getElementById("yazi")
 const muzik = document.getElementById("muzik")
 const bigHeart = document.getElementById("bigHeart")
+const hiddenText = document.getElementById("hiddenText")
 
 let scale = 1
 let hayirCount = 0
@@ -139,6 +152,10 @@ evet.onclick = ()=>{
     // Dev kalp animasyonu
     bigHeart.style.opacity = 1
     bigHeart.style.animation = 'pop 0.8s forwards'
+
+    // Gizli yazıyı göster
+    hiddenText.style.opacity = 0.5
+    hiddenText.style.transition = "opacity 2s"
 
     // Mobil titreşim
     if(navigator.vibrate){
