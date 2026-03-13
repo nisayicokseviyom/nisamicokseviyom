@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Nisa</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
+
+<style>
+html, body{
+    margin:0;
+    padding:0;
+    height:100%;
+    width:100%;
+    overflow:hidden;
+    font-family:'Quicksand', sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    background: linear-gradient(45deg,#2c3e50,#8e44ad,#3498db); /* Yeni gradient */
+    background-size:400% 400%;
+    animation:bg 8s infinite alternate;
+}
+
+h1{
+    color:white;
+    font-size:50px;
+    text-align:center;
+    text-shadow:0 0 20px #ff8ae0;
+    margin:20px;
+}
+
+button{
+    padding:15px 35px;
+    font-size:22px;
+    border:none;
+    border-radius:15px;
+    cursor:pointer;
+    margin:10px;
+    font-family:'Quicksand', sans-serif;
+}
+
+#evet{
+    background:#00c853;
+    color:white;
+    transition:0.2s;
+}
+
+#hayir{
+    background:#ff1744;
+    color:white;
+    position:absolute;
+}
+
+.heart{
+    position:absolute;
+    font-size:25px;
+    animation:fall 5s linear infinite;
+}
+
+#bigHeart{
+    position:absolute;
+    font-size:100px;
+    opacity:0;
+    pointer-events:none;
+    transform:translate(-50%,-50%);
+    left:50%;
+    top:50%;
+    animation:pop 0.8s forwards;
+}
+
+@keyframes fall{
+    0%{transform:translateY(-100px) rotate(0deg);}
+    100%{transform:translateY(110vh) rotate(360deg);}
+}
+
+@keyframes bg{
+    0%{background-position:0% 50%;}
+    100%{background-position:100% 50%;}
+}
+
+@keyframes pop{
+    0%{transform:translate(-50%,-50%) scale(0); opacity:1;}
+    50%{transform:translate(-50%,-50%) scale(1.5);}
+    100%{transform:translate(-50%,-50%) scale(1); opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<h1 id="yazi">Beni seviyor musun?</h1>
+
+<div>
+<button id="evet">Evet</button>
+<button id="hayir">Hayır</button>
+</div>
+
+<audio id="muzik">
+  <source src="cmbz.mp3" type="audio/mpeg">
+</audio>
+
+<div id="bigHeart">❤️</div>
+
+<script>
+const hayir = document.getElementById("hayir")
+const evet = document.getElementById("evet")
+const yazi = document.getElementById("yazi")
+const muzik = document.getElementById("muzik")
+const bigHeart = document.getElementById("bigHeart")
+
+let scale = 1
+let hayirCount = 0
+
+// Hayır butonu kaçıyor
+hayir.addEventListener("mouseover", ()=>{
+    hayirCount++
+    if(hayirCount >= 3){
+        yazi.innerText="Burnuna osururum bak askım seviyon mu cabuk soyle"
+        return
+    }
+    let x = Math.random()*(window.innerWidth-100)
+    let y = Math.random()*(window.innerHeight-50)
+    hayir.style.left=x+"px"
+    hayir.style.top=y+"px"
+    scale += 0.2
+    evet.style.transform="scale("+scale+")"
+})
+
+// Evet tıklanınca
+evet.onclick = ()=>{
+    yazi.innerText="Ben de seni seviyom mal ❤️"
+    hayir.style.display="none"
+    evet.style.display="none"
+
+    muzik.play()
+
+    // Dev kalp animasyonu
+    bigHeart.style.opacity = 1
+    bigHeart.style.animation = 'pop 0.8s forwards'
+
+    // Mobil titreşim
+    if(navigator.vibrate){
+        navigator.vibrate([200,100,200])
+    }
+}
+
+// Kalpler uçuşuyor
+function heart(){
+    let h=document.createElement("div")
+    h.className="heart"
+    h.innerHTML="❤️"
+    h.style.left=Math.random()*100+"vw"
+    h.style.fontSize=(Math.random()*30+15)+"px"
+    document.body.appendChild(h)
+    setTimeout(()=>{h.remove()},5000)
+}
+setInterval(heart,300)
+</script>
+
+</body>
+</html>
